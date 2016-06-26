@@ -1,0 +1,36 @@
+{"frames": [
+
+{
+	"filename": "fly/001.png",
+	"frame": {"x":1,"y":172,"w":68,"h":67},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":11,"y":27,"w":68,"h":67},
+	"sourceSize": {"w":96,"h":96}
+},
+{
+	"filename": "fly/002.png",
+	"frame": {"x":1,"y":92,"w":68,"h":78},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":11,"y":16,"w":68,"h":78},
+	"sourceSize": {"w":96,"h":96}
+},
+{
+	"filename": "fly/003.png",
+	"frame": {"x":1,"y":1,"w":68,"h":89},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":11,"y":5,"w":68,"h":89},
+	"sourceSize": {"w":96,"h":96}
+}],
+"meta": {
+	"app": "http://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "SpaceShip003.png",
+	"format": "RGBA8888",
+	"size": {"w":70,"h":240},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:d084eec2dfae56965c2efc1fbc4aa07e:aebb78dcda410aa28d80bc797435068a:be01702093cc9554cab8121c37215915$"
+}
+}
