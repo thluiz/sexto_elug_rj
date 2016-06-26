@@ -1,0 +1,8 @@
+"SublimeLinter": {
+  "linters": {
+     "elixirc": {
+        "mix_project": true,
+        "chdir": "./"
+     }
+  }
+}

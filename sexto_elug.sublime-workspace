@@ -1,0 +1,219 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+		]
+	},
+	"buffers":
+	[
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 392.0,
+		"last_filter": "rein",
+		"selected_items":
+		[
+			[
+				"rein",
+				"Indentation: Reindent Lines"
+			],
+			[
+				"iden",
+				"Indentation: Reindent Lines"
+			],
+			[
+				"instal",
+				"Package Control: Install Package"
+			],
+			[
+				"insta",
+				"Package Control: Install Package"
+			],
+			[
+				"install",
+				"Package Control: Install Package"
+			]
+		],
+		"width": 488.0
+	},
+	"console":
+	{
+		"height": 188.0,
+		"history":
+		[
+			"import urllib.request,os,hashlib; h = '2915d1851351e5ee549c20394736b442' + '8bc59f460fa1548d1514676163dafc88'; pf = 'Package Control.sublime-package'; ipp = sublime.installed_packages_path(); urllib.request.install_opener( urllib.request.build_opener( urllib.request.ProxyHandler()) ); by = urllib.request.urlopen( 'http://packagecontrol.io/' + pf.replace(' ', '%20')).read(); dh = hashlib.sha256(by).hexdigest(); print('Error validating download (got %s instead of %s), please try manual install' % (dh, h)) if dh != h else open(os.path.join( ipp, pf), 'wb' ).write(by)",
+			"import urllib2,os,hashlib; h = '2915d1851351e5ee549c20394736b442' + '8bc59f460fa1548d1514676163dafc88'; pf = 'Package Control.sublime-package'; ipp = sublime.installed_packages_path(); os.makedirs( ipp ) if not os.path.exists(ipp) else None; urllib2.install_opener( urllib2.build_opener( urllib2.ProxyHandler()) ); by = urllib2.urlopen( 'http://packagecontrol.io/' + pf.replace(' ', '%20')).read(); dh = hashlib.sha256(by).hexdigest(); open( os.path.join( ipp, pf), 'wb' ).write(by) if dh == h else None; print('Error validating download (got %s instead of %s), please try manual install' % (dh, h) if dh != h else 'Please restart Sublime Text to finish installation')"
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/C/Dropbox/WorkSpace/sexto_elug_rj/web/controllers/game_page_controller.ex",
+		"/C/Users/conta/AppData/Roaming/Sublime Text 3/Packages/Default/Default (Windows).sublime-keymap",
+		"/C/Dropbox/WorkSpace/sexto_elug_rj/web/templates/layout/app.html.eex",
+		"/C/Dropbox/WorkSpace/sexto_elug_rj/sexto_elug.sublime-project",
+		"/C/Dropbox/WorkSpace/sexto_elug_rj/web/templates/page/index.html.eex",
+		"/C/Dropbox/WorkSpace/sexto_elug_rj/web/static/js/game.js",
+		"/C/Dropbox/WorkSpace/sexto_elug_rj/web/templates/game_page/index.html.eex",
+		"/C/Dropbox/WorkSpace/sexto_elug_rj/web/views/game_page_view.ex",
+		"/C/Dropbox/WorkSpace/sexto_elug_rj/web/static/js/app.js",
+		"/C/Dropbox/WorkSpace/sexto_elug_rj/web/static/js/socket.js",
+		"/C/Dropbox/WorkSpace/sexto_elug_rj/web/router.ex",
+		"/C/Dropbox/WorkSpace/sexto_elug_rj/web/controllers/page_controller.ex",
+		"/C/Dropbox/WorkSpace/sexto_elug_rj/priv/static/js/app.js",
+		"/C/Dropbox/WorkSpace/sexto_elug_rj/web/views/error_view.ex",
+		"/C/Users/conta/AppData/Roaming/Sublime Text 3/Packages/Default/Preferences.sublime-settings",
+		"/C/Users/conta/AppData/Roaming/Sublime Text 3/Packages/User/Preferences.sublime-settings",
+		"/C/Dropbox/WorkSpace/sexto_elug_rj/.sublime-project",
+		"/C/Dropbox/WorkSpace/WhiteFox/Publicações/2016-03-29/Procam-hmg2/views/v2/Cadastro/Correspondente/Cadastro/index.html",
+		"/C/TFS/BTCorretora/Branches/Principal/Dominio/BTCorretora.Cambio/Entities.actiw",
+		"/C/TFS/BTCorretora/Branches/Principal/UnitTests/UnitTests.csproj",
+		"/C/TFS/BTCorretora/Branches/Principal/UnitTests2/UnitTests2.fsproj",
+		"/C/Program Files/PostgreSQL/9.5/data/pg_hba.conf",
+		"/C/Dropbox/DesktopThluiz/Comissões usuários Março.xlsx",
+		"/C/Dropbox/DesktopThluiz/Relatório de Comissionamentos Turismo.xls",
+		"/C/Dropbox/Downloads/Global.asax",
+		"/C/Program Files (x86)/Google/Chrome/Application/chrome.exe",
+		"/C/Dropbox/Downloads/ArquivoBACEN-20140707/ArquivoBACEN-20140707.txt",
+		"/C/Dropbox/DesktopThluiz/extrato.57440022016001.xml"
+	],
+	"find":
+	{
+		"height": 44.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"reindent",
+			"rei",
+			"function",
+			"test",
+			"tns:detalheUso"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"sheets":
+			[
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 36.0
+	},
+	"input":
+	{
+		"height": 44.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"pinned_build_system": "",
+	"project": "sexto_elug.sublime-project",
+	"replace":
+	{
+		"height": 68.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": true,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 263.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}
