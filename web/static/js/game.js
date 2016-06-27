@@ -9,9 +9,10 @@ var game = function(socket) {
 		.receive("error", resp => { console.log("Unable to join", resp) })
 
 	var spaceship;
+	var entities;
+
 	var timer = 0;
-	var interval = 5;
-	var entities = [];
+	var interval = 5;	
 	var bullets;
 	var nextFire = 0;
 	var fireRate = 200;
@@ -29,15 +30,14 @@ var game = function(socket) {
 
 		var ent = (st.type == 0 ? 
 					game.add.sprite(st.x, st.y, 'spaceship')
-					:game.add.sprite(st.x, st.y, 'blue_bullet'));
-		ent.x = st.x;
-		ent.y = st.y;
+					: game.add.sprite(st.x, st.y, 'blue_bullet'));
+
 		ent.id = st.id;
 		ent.rotation = st.r;
-		
+
 		addFlyAnimation(ent);
 
-		entities[entities.length] = ent;	
+		entities.add(ent);	
 	};
 
 	function update_entity(st, entity) {		
@@ -46,16 +46,18 @@ var game = function(socket) {
 			y:st.y, 
 			rotation: st.r
 		}, 3); */
-
-		game.physics.arcade.moveToXY(entity, st.x, st.y);
-		//game.physics.arcade.angleToXY(entity, st.x, y: st.y);
-		//entity.x = st.x;
-		//entity.y = st.y;
-		//entity.rotation = st.r;
+		//entity.velocity =  {};
+  		//entity.velocity.x = 0;
+  		//entity.velocity.y = 0;  		  	
+		//game.physics.arcade.moveToXY(entity, st.x, st.y);
+		//game.physics.arcade.angleToXY(entity, st.x, st.y);
+		entity.x = st.x;
+		entity.y = st.y;
+		entity.rotation = st.r;
 	}
 
-	function find_entity(st) {				
-		return _.first(_.where(entities, { id: st.id }));
+	function find_entity(st) {		
+		return _.first(_.where(entities.children, { id: st.id }));
 	}
 
 	function create_or_update(st) {
@@ -68,16 +70,8 @@ var game = function(socket) {
 		}
 	}
 
-	function update_state(state_objects) {
-		for(var st in state_objects) {
-			var e = state_objects[st];
-			if(e.id != current_id) { 
-				create_or_update(e);
-			} else {
-				update_player(e);		
-			}
-		}
-		current_state = state_objects;
+	function update_state(so) {		
+		current_state = so;
 	}
 
 	function remove_not_found() {
@@ -108,6 +102,7 @@ var game = function(socket) {
 	function create() {
 		game.physics.startSystem(Phaser.Physics.ARCADE);
 		game.renderer.renderSession.roundPixels = true;
+		entities = game.add.group();
 
 		spaceship = game.add.sprite(game.world.centerX, game.world.centerY, 'spaceship');			
 		addFlyAnimation(spaceship);
@@ -149,6 +144,15 @@ var game = function(socket) {
 	     if (game.input.activePointer.isDown) {        
         	fire();
 		}
+
+		for(var st in current_state) {
+			var e = current_state[st];
+			if(e.id != current_id) { 
+				create_or_update(e);
+			} else {
+				update_player(e);		
+			}
+		}	
 
 		if(timer % interval == 0) {
 			timer = 0;
