@@ -46,8 +46,8 @@ var game = function(socket) {
 			y:st.y, 
 			rotation: st.r
 		}, 3); */
-		
-		game.physics.arcade.moveToXY(entity, st.x, y: st.y);
+
+		game.physics.arcade.moveToXY(entity, st.x, st.y);
 		//game.physics.arcade.angleToXY(entity, st.x, y: st.y);
 		//entity.x = st.x;
 		//entity.y = st.y;
