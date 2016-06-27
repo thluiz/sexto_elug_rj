@@ -47,12 +47,12 @@ var game = function(socket) {
 			rotation: st.r
 		}, 3); */
 
-		game.add.tween(entity).to({ x: st.x, y: st.y }, 
+		game.add.tween(entity).to({ x: st.x, y: st.y, rotation: st.r }, 
 						3, Phaser.Easing.Cubic.In, true);
 
 		//entity.x = st.x;
 		//entity.y = st.y;
-		entity.rotation = st.r;
+		//entity.rotation = st.r;
 	}
 
 	function find_entity(st) {				
