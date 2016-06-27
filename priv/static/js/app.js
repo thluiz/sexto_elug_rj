@@ -1471,7 +1471,10 @@ var game = function game(socket) {
 	var game = new Phaser.Game(800, 600, Phaser.AUTO, 'phaser-example', { preload: preload, create: create, update: update, render: render });
 
 	function add_entity(st) {
-		console.log(st);
+		if (st.player == current_id) {
+			return;
+		}
+
 		var ent = st.type == 0 ? game.add.sprite(st.x, st.y, 'spaceship') : game.add.sprite(st.x, st.y, 'blue_bullet');
 		ent.x = st.x;
 		ent.y = st.y;
@@ -1479,6 +1482,7 @@ var game = function game(socket) {
 		ent.rotation = st.r;
 
 		addFlyAnimation(ent);
+
 		entities[entities.length] = ent;
 	};
 
@@ -1624,6 +1628,7 @@ var game = function game(socket) {
 					id: current_id + i,
 					x: children[i].x,
 					y: children[i].y,
+					player: current_id,
 					r: children[i].rotation
 				});
 			}
@@ -1782,6 +1787,10 @@ var game = function game(socket) {
 	var game = new Phaser.Game(800, 600, Phaser.AUTO, 'phaser-example', { preload: preload, create: create, update: update, render: render });
 
 	function add_entity(st) {
+		if (st.player == current_id) {
+			return;
+		}
+
 		var ent = st.type == 0 ? game.add.sprite(st.x, st.y, 'spaceship') : game.add.sprite(st.x, st.y, 'blue_bullet');
 		ent.x = st.x;
 		ent.y = st.y;
@@ -1789,6 +1798,7 @@ var game = function game(socket) {
 		ent.rotation = st.r;
 
 		addFlyAnimation(ent);
+
 		entities[entities.length] = ent;
 	};
 
@@ -1866,6 +1876,7 @@ var game = function game(socket) {
 
 	function preload() {
 		game.load.image('blue_bullet', '/images/bullet/blue.png');
+		game.load.image('green_bullet', 'images/bullet/green.png');
 		game.load.atlasJSONHash('spaceship', '/images/SpaceShip003.png', '/images/SpaceShip003/anim.json');
 	}
 
@@ -1881,7 +1892,7 @@ var game = function game(socket) {
 		bullets = game.add.group();
 		bullets.enableBody = true;
 		bullets.physicsBodyType = Phaser.Physics.ARCADE;
-		bullets.createMultiple(5, 'blue_bullet');
+		bullets.createMultiple(5, 'green_bullet');
 
 		bullets.setAll('anchor.x', 0.5);
 		bullets.setAll('anchor.y', 0.5);
@@ -1934,6 +1945,7 @@ var game = function game(socket) {
 					id: current_id + i,
 					x: children[i].x,
 					y: children[i].y,
+					player: current_id,
 					r: children[i].rotation
 				});
 			}
@@ -2028,8 +2040,8 @@ var socket = new _phoenix.Socket("/socket", { params: { token: window.userToken 
 exports.default = socket;
 });
 
-;require.alias("phoenix/priv/static/phoenix.js", "phoenix");
-require.alias("phoenix_html/priv/static/phoenix_html.js", "phoenix_html");require.register("___globals___", function(exports, require, module) {
+;require.alias("phoenix_html/priv/static/phoenix_html.js", "phoenix_html");
+require.alias("phoenix/priv/static/phoenix.js", "phoenix");require.register("___globals___", function(exports, require, module) {
   
 });})();require('___globals___');
 

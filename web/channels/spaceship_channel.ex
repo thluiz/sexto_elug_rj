@@ -7,8 +7,7 @@ defmodule SextoElugRj.SpaceshipChannel do
 
   def join("spaceship:lobby", payload, socket) do
     send(self, {:after_join, payload})
-    {:ok, assign(socket, :id, payload["
-      id"]) }
+    {:ok, assign(socket, :id, payload["id"]) }
   end
 
   def handle_info({:after_join, message}, socket) do
@@ -35,7 +34,8 @@ defmodule SextoElugRj.SpaceshipChannel do
       id: payload["id"],
       x: payload["x"],
       y: payload["y"],
-      r: payload["r"] 
+      r: payload["r"], 
+      player: payload["player"] 
     }
 
     {:noreply, socket} 
@@ -47,7 +47,8 @@ defmodule SextoElugRj.SpaceshipChannel do
       x: payload["x"],
       y: payload["y"],
       r: payload["r"],
-      type: 0      
+      type: 0,
+      player: 0      
     }
     {:noreply, socket} 
   end 

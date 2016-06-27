@@ -17,7 +17,7 @@ defmodule SextoElugRj.Router do
     pipe_through :browser # Use the default browser stack
 
     get "/game", GamePageController, :index
-    get "/", PageController, :index
+    get "/", GamePageController, :index
   end
 
   # Other scopes may use custom stacks.

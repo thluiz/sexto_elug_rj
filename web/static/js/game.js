@@ -21,6 +21,10 @@ var game = function(socket) {
 		{ preload: preload, create: create, update: update, render: render });
 
 	function add_entity(st) {
+		if(st.player == current_id) {
+			return;
+		}
+
 		var ent = (st.type == 0 ? 
 					game.add.sprite(st.x, st.y, 'spaceship')
 					:game.add.sprite(st.x, st.y, 'blue_bullet'));
@@ -30,6 +34,7 @@ var game = function(socket) {
 		ent.rotation = st.r;
 		
 		addFlyAnimation(ent);
+
 		entities[entities.length] = ent;	
 	};
 
@@ -109,6 +114,7 @@ var game = function(socket) {
 
 	function preload() {
 		game.load.image('blue_bullet', '/images/bullet/blue.png');
+		game.load.image('green_bullet', 'images/bullet/green.png');
 		game.load.atlasJSONHash('spaceship', '/images/SpaceShip003.png', '/images/SpaceShip003/anim.json');
 	}
 
@@ -124,7 +130,7 @@ var game = function(socket) {
 		bullets = game.add.group();
     	bullets.enableBody = true;
     	bullets.physicsBodyType = Phaser.Physics.ARCADE;
-    	bullets.createMultiple(5, 'blue_bullet');
+    	bullets.createMultiple(5, 'green_bullet');
     
     	bullets.setAll('anchor.x', 0.5);
     	bullets.setAll('anchor.y', 0.5);
@@ -177,6 +183,7 @@ var game = function(socket) {
 					id: current_id + i,
 					x: children[i].x,
 					y: children[i].y,
+					player: current_id,
 					r: children[i].rotation
 				});	
 			}

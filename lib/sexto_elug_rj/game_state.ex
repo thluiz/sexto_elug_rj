@@ -5,16 +5,17 @@ defmodule SextoElugRj.GameState do
 	end
 
 	def put_player(player) do
-		put_player(player, 0, 0, 0)
+		put_player(player, 0, 0, 0, 0)
 	end
 
-	def put_player(player, x, y, r) do
+	def put_player(player, x, y, r, pl) do
 		player = player		
 		|> Map.put(:type, 0)		
 		|> Map.put(:kills, 0)
 		|> Map.put(:x, x)
 		|> Map.put(:y, y)
 		|> Map.put(:r, r)
+		|> Map.put(:player, pl)
 
 		Agent.update(__MODULE__, &Map.put_new(&1, player.id, player))
 		player
@@ -34,7 +35,7 @@ defmodule SextoElugRj.GameState do
 		|> Map.put(:type, 1)
 
 		if(!get_player(bullet.id)) do
-			put_player(bullet, bullet.x, bullet.y, bullet.r)
+			put_player(bullet, bullet.x, bullet.y, bullet.r, bullet.player)
 		end
 
 		Agent.update(__MODULE__, &Map.put(&1, bullet.id, bullet))
