@@ -46,10 +46,9 @@ var game = function(socket) {
 			y:st.y, 
 			rotation: st.r
 		}, 3); */
-
-		game.add.tween(entity).to({ x: st.x, y: st.y, rotation: st.r }, 
-						3, Phaser.Easing.Cubic.In, true);
-
+		
+		game.physics.arcade.moveToXY(entity, st.x, y: st.y);
+		//game.physics.arcade.angleToXY(entity, st.x, y: st.y);
 		//entity.x = st.x;
 		//entity.y = st.y;
 		//entity.rotation = st.r;
