@@ -1498,7 +1498,7 @@ var game = function game(socket) {
 
 	function create_or_update(st) {
 		var ent = find_entity(st);
-
+		console.log(ent);
 		if (ent == null) {
 			add_entity(st);
 		} else {
@@ -1537,9 +1537,11 @@ var game = function game(socket) {
 			if (!found && entities[i] != null) {
 				console.log("kill " + entities[i].id);
 				entities[i].kill();
-				entities.splice(i, 1);
+				entities[i] = null;
 			}
 		}
+
+		entities = _.compact(entities);
 	}
 
 	function update_player(status) {}
@@ -1795,12 +1797,12 @@ var game = function game(socket) {
 	}
 
 	function find_entity(st) {
-		return _.first(_.findWhere(entities, { id: st.id }));
+		return _.first(_.where(entities, { id: st.id }));
 	}
 
 	function create_or_update(st) {
 		var ent = find_entity(st);
-
+		console.log(ent);
 		if (ent == null) {
 			add_entity(st);
 		} else {
@@ -1839,9 +1841,11 @@ var game = function game(socket) {
 			if (!found && entities[i] != null) {
 				console.log("kill " + entities[i].id);
 				entities[i].kill();
-				entities.splice(i, 1);
+				entities[i] = null;
 			}
 		}
+
+		entities = _.compact(entities);
 	}
 
 	function update_player(status) {}

@@ -44,13 +44,13 @@ var game = function(socket) {
 		entity.rotation = st.r;
 	}
 
-	function find_entity(st) {		
-		return _.first(_.findWhere(entities, { id: st.id }));
+	function find_entity(st) {				
+		return _.first(_.where(entities, { id: st.id }));
 	}
 
 	function create_or_update(st) {
 		var ent = find_entity(st);
-
+		console.log(ent);
 		if(ent == null) {
 			add_entity(st);
 		} else {
