@@ -38,36 +38,23 @@ var game = function(socket) {
 		entities[entities.length] = ent;	
 	};
 
-	function update_entity(st) {
-		var entity = find_entity(st);
+	function update_entity(st, entity) {		
 		entity.x = st.x;
 		entity.y = st.y;
 		entity.rotation = st.r;
 	}
 
-	function find_entity(st) {
-		var len = entities.length;
-		for(var i = 0; i < len; i++) {
-			if(entities[i] == null) {
-				continue;
-			}
-			if(entities[i].id == st.id) {
-				return entities[i];
-			}			
-		}
-
-		return null;
-	}
-
-	function entity_exist(st) {
-		return find_entity(st) != null;
+	function find_entity(st) {		
+		return _.first(_.findWhere(entities, { id: st.id }));
 	}
 
 	function create_or_update(st) {
-		if(!entity_exist(st)) {
+		var ent = find_entity(st);
+		
+		if(ent == null) {
 			add_entity(st);
 		} else {
-			update_entity(st);
+			update_entity(st, ent);
 		}
 	}
 
@@ -99,11 +86,10 @@ var game = function(socket) {
 				}				
 			}
 
-			if(!found && entities[i] != null) {
-				//console.log(entities[i]);
+			if(!found && entities[i] != null) {				
 				console.log("kill " + entities[i].id);
-				entities[i].kill();
-				entities[i] = null;				
+				entities[i].kill();					
+				entities.splice(i, 1);
 			}
 		}
 	}
@@ -162,13 +148,6 @@ var game = function(socket) {
         	fire();
 		}
 
-	    timer++;
-	}
-
-	function render() {
-		//console.log(spaceship);
-		//game.debug.spriteInfo(spaceship, 32, 100);
-
 		if(timer % interval == 0) {
 			timer = 0;
 			channel.push("update_player", {
@@ -187,7 +166,13 @@ var game = function(socket) {
 					r: children[i].rotation
 				});	
 			}
-		}    
+		} 
+
+	    timer++;
+	}
+
+	function render() {
+		//game.debug.spriteInfo(spaceship, 32, 100);
 	}
 
 
