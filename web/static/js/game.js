@@ -50,7 +50,7 @@ var game = function(socket) {
 
 	function create_or_update(st) {
 		var ent = find_entity(st);
-		
+
 		if(ent == null) {
 			add_entity(st);
 		} else {
@@ -72,6 +72,8 @@ var game = function(socket) {
 	}
 
 	function remove_not_found(state_objects) {
+		var arr = entities;
+
 		for(var i = 0; i < entities.length; i++) {
 			var found = false;
 			if(entities[i] == null) {
@@ -89,9 +91,11 @@ var game = function(socket) {
 			if(!found && entities[i] != null) {				
 				console.log("kill " + entities[i].id);
 				entities[i].kill();					
-				entities.splice(i, 1);
+				arr = entities.splice(i, 1);
 			}
 		}
+
+		entities = arr;
 	}
 
 	function update_player(status) {

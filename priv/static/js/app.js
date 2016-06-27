@@ -1486,36 +1486,23 @@ var game = function game(socket) {
 		entities[entities.length] = ent;
 	};
 
-	function update_entity(st) {
-		var entity = find_entity(st);
+	function update_entity(st, entity) {
 		entity.x = st.x;
 		entity.y = st.y;
 		entity.rotation = st.r;
 	}
 
 	function find_entity(st) {
-		var len = entities.length;
-		for (var i = 0; i < len; i++) {
-			if (entities[i] == null) {
-				continue;
-			}
-			if (entities[i].id == st.id) {
-				return entities[i];
-			}
-		}
-
-		return null;
-	}
-
-	function entity_exist(st) {
-		return find_entity(st) != null;
+		return _.first(_.findWhere(entities, { id: st.id }));
 	}
 
 	function create_or_update(st) {
-		if (!entity_exist(st)) {
+		var ent = find_entity(st);
+
+		if (ent == null) {
 			add_entity(st);
 		} else {
-			update_entity(st);
+			update_entity(st, ent);
 		}
 	}
 
@@ -1548,10 +1535,9 @@ var game = function game(socket) {
 			}
 
 			if (!found && entities[i] != null) {
-				//console.log(entities[i]);
 				console.log("kill " + entities[i].id);
 				entities[i].kill();
-				entities[i] = null;
+				entities.splice(i, 1);
 			}
 		}
 	}
@@ -1560,6 +1546,7 @@ var game = function game(socket) {
 
 	function preload() {
 		game.load.image('blue_bullet', '/images/bullet/blue.png');
+		game.load.image('green_bullet', 'images/bullet/green.png');
 		game.load.atlasJSONHash('spaceship', '/images/SpaceShip003.png', '/images/SpaceShip003/anim.json');
 	}
 
@@ -1575,7 +1562,7 @@ var game = function game(socket) {
 		bullets = game.add.group();
 		bullets.enableBody = true;
 		bullets.physicsBodyType = Phaser.Physics.ARCADE;
-		bullets.createMultiple(5, 'blue_bullet');
+		bullets.createMultiple(5, 'green_bullet');
 
 		bullets.setAll('anchor.x', 0.5);
 		bullets.setAll('anchor.y', 0.5);
@@ -1607,13 +1594,6 @@ var game = function game(socket) {
 			fire();
 		}
 
-		timer++;
-	}
-
-	function render() {
-		//console.log(spaceship);
-		//game.debug.spriteInfo(spaceship, 32, 100);
-
 		if (timer % interval == 0) {
 			timer = 0;
 			channel.push("update_player", {
@@ -1633,6 +1613,12 @@ var game = function game(socket) {
 				});
 			}
 		}
+
+		timer++;
+	}
+
+	function render() {
+		//game.debug.spriteInfo(spaceship, 32, 100);
 	}
 
 	function fire() {
@@ -1802,36 +1788,23 @@ var game = function game(socket) {
 		entities[entities.length] = ent;
 	};
 
-	function update_entity(st) {
-		var entity = find_entity(st);
+	function update_entity(st, entity) {
 		entity.x = st.x;
 		entity.y = st.y;
 		entity.rotation = st.r;
 	}
 
 	function find_entity(st) {
-		var len = entities.length;
-		for (var i = 0; i < len; i++) {
-			if (entities[i] == null) {
-				continue;
-			}
-			if (entities[i].id == st.id) {
-				return entities[i];
-			}
-		}
-
-		return null;
-	}
-
-	function entity_exist(st) {
-		return find_entity(st) != null;
+		return _.first(_.findWhere(entities, { id: st.id }));
 	}
 
 	function create_or_update(st) {
-		if (!entity_exist(st)) {
+		var ent = find_entity(st);
+
+		if (ent == null) {
 			add_entity(st);
 		} else {
-			update_entity(st);
+			update_entity(st, ent);
 		}
 	}
 
@@ -1864,10 +1837,9 @@ var game = function game(socket) {
 			}
 
 			if (!found && entities[i] != null) {
-				//console.log(entities[i]);
 				console.log("kill " + entities[i].id);
 				entities[i].kill();
-				entities[i] = null;
+				entities.splice(i, 1);
 			}
 		}
 	}
@@ -1924,13 +1896,6 @@ var game = function game(socket) {
 			fire();
 		}
 
-		timer++;
-	}
-
-	function render() {
-		//console.log(spaceship);
-		//game.debug.spriteInfo(spaceship, 32, 100);
-
 		if (timer % interval == 0) {
 			timer = 0;
 			channel.push("update_player", {
@@ -1950,6 +1915,12 @@ var game = function game(socket) {
 				});
 			}
 		}
+
+		timer++;
+	}
+
+	function render() {
+		//game.debug.spriteInfo(spaceship, 32, 100);
 	}
 
 	function fire() {
