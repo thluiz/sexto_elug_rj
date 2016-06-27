@@ -10,7 +10,7 @@ var game = function(socket) {
 
 	var spaceship;
 	var timer = 0;
-	var interval = 3;
+	var interval = 1;
 	var entities = [];
 	var bullets;
 	var nextFire = 0;
