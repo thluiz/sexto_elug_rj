@@ -47,7 +47,8 @@ var game = function(socket) {
 			rotation: st.r
 		}, 3); */
 
-		game.add.tween(entity).to({ x: st.x, y: st.y }, 5, Phaser.Easing.Circular.Out, true);
+		game.add.tween(entity).to({ x: st.x, y: st.y }, 
+						3, Phaser.Easing.Cubic.In, true);
 
 		//entity.x = st.x;
 		//entity.y = st.y;
