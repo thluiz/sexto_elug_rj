@@ -72,8 +72,6 @@ var game = function(socket) {
 	}
 
 	function remove_not_found(state_objects) {
-		var arr = entities;
-
 		for(var i = 0; i < entities.length; i++) {
 			var found = false;
 			if(entities[i] == null) {
@@ -90,12 +88,12 @@ var game = function(socket) {
 
 			if(!found && entities[i] != null) {				
 				console.log("kill " + entities[i].id);
-				entities[i].kill();					
-				arr = entities.splice(i, 1);
+				entities[i].kill();	
+				entities[i] = null;								
 			}
 		}
 
-		entities = arr;
+		entities = _.compact(entities);
 	}
 
 	function update_player(status) {
