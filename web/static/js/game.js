@@ -10,11 +10,13 @@ var game = function(socket) {
 
 	var spaceship;
 	var timer = 0;
-	var interval = 1;
+	var interval = 5;
 	var entities = [];
 	var bullets;
 	var nextFire = 0;
 	var fireRate = 200;
+	var cleanUpInterval = 1000;
+	var current_state;
 
 
 	var game = new Phaser.Game(800, 600, Phaser.AUTO, 'phaser-example',
@@ -39,8 +41,16 @@ var game = function(socket) {
 	};
 
 	function update_entity(st, entity) {		
-		entity.x = st.x;
-		entity.y = st.y;
+		/* game.add.tween(entity).to({
+			x:st.x,
+			y:st.y, 
+			rotation: st.r
+		}, 3); */
+
+		game.add.tween(entity).to({ x: st.x, y: st.y }, 10, Phaser.Easing.Linear.None, true);
+
+		//entity.x = st.x;
+		//entity.y = st.y;
 		entity.rotation = st.r;
 	}
 
@@ -50,7 +60,7 @@ var game = function(socket) {
 
 	function create_or_update(st) {
 		var ent = find_entity(st);
-		console.log(ent);
+
 		if(ent == null) {
 			add_entity(st);
 		} else {
@@ -67,33 +77,22 @@ var game = function(socket) {
 				update_player(e);		
 			}
 		}
-
-		remove_not_found(state_objects)
+		current_state = state_objects;
 	}
 
-	function remove_not_found(state_objects) {
-		for(var i = 0; i < entities.length; i++) {
-			var found = false;
-			if(entities[i] == null) {
-				continue;
+	function remove_not_found() {
+		var players = _.where(entities, { type: 0 });
+
+		_.each(players, function(player) {			
+			var ent = _.findWhere(current_state, { id: player.id });
+			if(ent != null) { 								
+				return;
 			}
 
-			for(var st in state_objects) {
-				var e = state_objects[st];
-				if(e.id == entities[i].id) {
-					found = true;
-					break;
-				}				
-			}
+			entities = _.without(entities, _.findWhere(entities, {id: player.id }));
+		});
 
-			if(!found && entities[i] != null) {				
-				console.log("kill " + entities[i].id);
-				entities[i].kill();	
-				entities[i] = null;								
-			}
-		}
-
-		entities = _.compact(entities);
+		setTimeout(remove_not_found, cleanUpInterval);
 	}
 
 	function update_player(status) {
@@ -108,6 +107,7 @@ var game = function(socket) {
 
 	function create() {
 		game.physics.startSystem(Phaser.Physics.ARCADE);
+		game.renderer.renderSession.roundPixels = true;
 
 		spaceship = game.add.sprite(game.world.centerX, game.world.centerY, 'spaceship');			
 		addFlyAnimation(spaceship);
@@ -199,6 +199,8 @@ var game = function(socket) {
 
 		return text;
 	}
+
+	remove_not_found();
 }
 
 export default game
