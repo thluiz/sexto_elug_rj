@@ -1495,7 +1495,7 @@ var game = function game(socket) {
   	rotation: st.r
   }, 3); */
 
-		game.add.tween(entity).to({ x: st.x, y: st.y }, 10, Phaser.Easing.Linear.None, true);
+		game.add.tween(entity).to({ x: st.x, y: st.y }, 10, "easeInOut", true);
 
 		//entity.x = st.x;
 		//entity.y = st.y;
@@ -1801,7 +1801,7 @@ var game = function game(socket) {
   	rotation: st.r
   }, 3); */
 
-		game.add.tween(entity).to({ x: st.x, y: st.y }, 10, Phaser.Easing.Linear.None, true);
+		game.add.tween(entity).to({ x: st.x, y: st.y }, 10, "easeInOut", true);
 
 		//entity.x = st.x;
 		//entity.y = st.y;
