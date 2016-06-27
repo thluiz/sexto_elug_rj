@@ -15,7 +15,8 @@ defmodule SextoElugRj do
       # Start your own worker by calling: SextoElugRj.Worker.start_link(arg1, arg2, arg3)
       # worker(SextoElugRj.Worker, [arg1, arg2, arg3]),
       worker(SextoElugRj.GameState, []),
-      worker(SextoElugRj.GameBroadcaster, [])
+      worker(SextoElugRj.GameBroadcaster, []),
+      supervisor(SextoElugRj.Presence, [])
     ]
 
     # See http://elixir-lang.org/docs/stable/elixir/Supervisor.html

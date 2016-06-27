@@ -1462,13 +1462,17 @@ var game = function game(socket) {
 
 	var spaceship;
 	var timer = 0;
-	var interval = 50;
+	var interval = 3;
 	var entities = [];
+	var bullets;
+	var nextFire = 0;
+	var fireRate = 200;
 
 	var game = new Phaser.Game(800, 600, Phaser.AUTO, 'phaser-example', { preload: preload, create: create, update: update, render: render });
 
 	function add_entity(st) {
-		var ent = game.add.sprite(st.x, st.y, 'spaceship');
+		console.log(st);
+		var ent = st.type == 0 ? game.add.sprite(st.x, st.y, 'spaceship') : game.add.sprite(st.x, st.y, 'blue_bullet');
 		ent.x = st.x;
 		ent.y = st.y;
 		ent.id = st.id;
@@ -1483,12 +1487,14 @@ var game = function game(socket) {
 		entity.x = st.x;
 		entity.y = st.y;
 		entity.rotation = st.r;
-		console.log(st);
 	}
 
 	function find_entity(st) {
 		var len = entities.length;
 		for (var i = 0; i < len; i++) {
+			if (entities[i] == null) {
+				continue;
+			}
 			if (entities[i].id == st.id) {
 				return entities[i];
 			}
@@ -1518,11 +1524,38 @@ var game = function game(socket) {
 				update_player(e);
 			}
 		}
+
+		remove_not_found(state_objects);
+	}
+
+	function remove_not_found(state_objects) {
+		for (var i = 0; i < entities.length; i++) {
+			var found = false;
+			if (entities[i] == null) {
+				continue;
+			}
+
+			for (var st in state_objects) {
+				var e = state_objects[st];
+				if (e.id == entities[i].id) {
+					found = true;
+					break;
+				}
+			}
+
+			if (!found && entities[i] != null) {
+				//console.log(entities[i]);
+				console.log("kill " + entities[i].id);
+				entities[i].kill();
+				entities[i] = null;
+			}
+		}
 	}
 
 	function update_player(status) {}
 
 	function preload() {
+		game.load.image('blue_bullet', '/images/bullet/blue.png');
 		game.load.atlasJSONHash('spaceship', '/images/SpaceShip003.png', '/images/SpaceShip003/anim.json');
 	}
 
@@ -1530,15 +1563,27 @@ var game = function game(socket) {
 		game.physics.startSystem(Phaser.Physics.ARCADE);
 
 		spaceship = game.add.sprite(game.world.centerX, game.world.centerY, 'spaceship');
-
 		addFlyAnimation(spaceship);
 
 		game.physics.arcade.enable(spaceship);
+		game.camera.follow(spaceship);
+
+		bullets = game.add.group();
+		bullets.enableBody = true;
+		bullets.physicsBodyType = Phaser.Physics.ARCADE;
+		bullets.createMultiple(5, 'blue_bullet');
+
+		bullets.setAll('anchor.x', 0.5);
+		bullets.setAll('anchor.y', 0.5);
+		bullets.setAll('outOfBoundsKill', true);
+		bullets.setAll('checkWorldBounds', true);
+
 		channel.on("update_state", update_state);
 	}
 
 	function addFlyAnimation(target) {
 		target.anchor.setTo(0.5, 0.5);
+		target.scale.setTo(0.6, 0.6);
 		target.animations.add('fly');
 		target.animations.play('fly', 15, true);
 	}
@@ -1554,30 +1599,52 @@ var game = function game(socket) {
 		}
 
 		spaceship.rotation = 4.6 /* ??? */ + game.physics.arcade.angleToPointer(spaceship);
+		if (game.input.activePointer.isDown) {
+			fire();
+		}
+
 		timer++;
 	}
 
 	function render() {
 		//console.log(spaceship);
-		game.debug.spriteInfo(spaceship, 32, 100);
+		//game.debug.spriteInfo(spaceship, 32, 100);
 
 		if (timer % interval == 0) {
 			timer = 0;
-			//console.log(spaceship.x);
-			//console.log(spaceship.y);
-			//console.log(spaceship.rotation);
 			channel.push("update_player", {
 				id: current_id,
 				x: spaceship.x,
 				y: spaceship.y,
 				r: spaceship.rotation
 			});
+			var children = bullets.children;
+			for (var i = 0; i < children.length; i++) {
+				channel.push("fire_from_player", {
+					id: current_id + i,
+					x: children[i].x,
+					y: children[i].y,
+					r: children[i].rotation
+				});
+			}
+		}
+	}
+
+	function fire() {
+		if (game.time.now > nextFire && bullets.countDead() > 0) {
+			nextFire = game.time.now + fireRate;
+
+			var bullet = bullets.getFirstExists(false);
+
+			bullet.reset(spaceship.x, spaceship.y);
+
+			bullet.rotation = game.physics.arcade.moveToPointer(bullet, 1000, game.input.activePointer, 500);
 		}
 	}
 
 	function makeid() {
 		var text = "";
-		var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+		var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 
 		for (var i = 0; i < 5; i++) {
 			text += possible.charAt(Math.floor(Math.random() * possible.length));
@@ -1706,13 +1773,16 @@ var game = function game(socket) {
 
 	var spaceship;
 	var timer = 0;
-	var interval = 1;
+	var interval = 3;
 	var entities = [];
+	var bullets;
+	var nextFire = 0;
+	var fireRate = 200;
 
 	var game = new Phaser.Game(800, 600, Phaser.AUTO, 'phaser-example', { preload: preload, create: create, update: update, render: render });
 
 	function add_entity(st) {
-		var ent = game.add.sprite(st.x, st.y, 'spaceship');
+		var ent = st.type == 0 ? game.add.sprite(st.x, st.y, 'spaceship') : game.add.sprite(st.x, st.y, 'blue_bullet');
 		ent.x = st.x;
 		ent.y = st.y;
 		ent.id = st.id;
@@ -1732,6 +1802,9 @@ var game = function game(socket) {
 	function find_entity(st) {
 		var len = entities.length;
 		for (var i = 0; i < len; i++) {
+			if (entities[i] == null) {
+				continue;
+			}
 			if (entities[i].id == st.id) {
 				return entities[i];
 			}
@@ -1761,11 +1834,38 @@ var game = function game(socket) {
 				update_player(e);
 			}
 		}
+
+		remove_not_found(state_objects);
+	}
+
+	function remove_not_found(state_objects) {
+		for (var i = 0; i < entities.length; i++) {
+			var found = false;
+			if (entities[i] == null) {
+				continue;
+			}
+
+			for (var st in state_objects) {
+				var e = state_objects[st];
+				if (e.id == entities[i].id) {
+					found = true;
+					break;
+				}
+			}
+
+			if (!found && entities[i] != null) {
+				//console.log(entities[i]);
+				console.log("kill " + entities[i].id);
+				entities[i].kill();
+				entities[i] = null;
+			}
+		}
 	}
 
 	function update_player(status) {}
 
 	function preload() {
+		game.load.image('blue_bullet', '/images/bullet/blue.png');
 		game.load.atlasJSONHash('spaceship', '/images/SpaceShip003.png', '/images/SpaceShip003/anim.json');
 	}
 
@@ -1773,15 +1873,27 @@ var game = function game(socket) {
 		game.physics.startSystem(Phaser.Physics.ARCADE);
 
 		spaceship = game.add.sprite(game.world.centerX, game.world.centerY, 'spaceship');
-
 		addFlyAnimation(spaceship);
 
 		game.physics.arcade.enable(spaceship);
+		game.camera.follow(spaceship);
+
+		bullets = game.add.group();
+		bullets.enableBody = true;
+		bullets.physicsBodyType = Phaser.Physics.ARCADE;
+		bullets.createMultiple(5, 'blue_bullet');
+
+		bullets.setAll('anchor.x', 0.5);
+		bullets.setAll('anchor.y', 0.5);
+		bullets.setAll('outOfBoundsKill', true);
+		bullets.setAll('checkWorldBounds', true);
+
 		channel.on("update_state", update_state);
 	}
 
 	function addFlyAnimation(target) {
 		target.anchor.setTo(0.5, 0.5);
+		target.scale.setTo(0.6, 0.6);
 		target.animations.add('fly');
 		target.animations.play('fly', 15, true);
 	}
@@ -1797,12 +1909,16 @@ var game = function game(socket) {
 		}
 
 		spaceship.rotation = 4.6 /* ??? */ + game.physics.arcade.angleToPointer(spaceship);
+		if (game.input.activePointer.isDown) {
+			fire();
+		}
+
 		timer++;
 	}
 
 	function render() {
 		//console.log(spaceship);
-		game.debug.spriteInfo(spaceship, 32, 100);
+		//game.debug.spriteInfo(spaceship, 32, 100);
 
 		if (timer % interval == 0) {
 			timer = 0;
@@ -1812,12 +1928,33 @@ var game = function game(socket) {
 				y: spaceship.y,
 				r: spaceship.rotation
 			});
+			var children = bullets.children;
+			for (var i = 0; i < children.length; i++) {
+				channel.push("fire_from_player", {
+					id: current_id + i,
+					x: children[i].x,
+					y: children[i].y,
+					r: children[i].rotation
+				});
+			}
+		}
+	}
+
+	function fire() {
+		if (game.time.now > nextFire && bullets.countDead() > 0) {
+			nextFire = game.time.now + fireRate;
+
+			var bullet = bullets.getFirstExists(false);
+
+			bullet.reset(spaceship.x, spaceship.y);
+
+			bullet.rotation = game.physics.arcade.moveToPointer(bullet, 1000, game.input.activePointer, 500);
 		}
 	}
 
 	function makeid() {
 		var text = "";
-		var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+		var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 
 		for (var i = 0; i < 5; i++) {
 			text += possible.charAt(Math.floor(Math.random() * possible.length));
