@@ -35,6 +35,11 @@ var game = function(socket) {
 		ent.id = st.id;
 		ent.rotation = st.r;
 
+		if(type == 1) {
+			ent.outOfBoundsKill = true;
+			ent.checkWorldBounds = true;
+		}
+
 		addFlyAnimation(ent);
 
 		entities.add(ent);	
