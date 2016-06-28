@@ -2,7 +2,7 @@ defmodule SextoElugRj.GameBroadcaster do
 	alias SextoElugRj.GameState
 	alias SextoElugRj.Endpoint
 
-	@timeout 20 
+	@timeout 2 
 	@endpoint "spaceship:lobby"
 
 	def start_link do

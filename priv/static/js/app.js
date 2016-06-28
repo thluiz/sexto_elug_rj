@@ -1497,11 +1497,12 @@ var game = function game(socket) {
 		//entity.velocity =  {};
 		//entity.velocity.x = 0;
 		//entity.velocity.y = 0;  		  	
-		game.physics.arcade.moveToXY(entity, st.x, st.y);
+		//game.physics.arcade.moveToXY(entity, st.x, st.y);
 		//game.physics.arcade.angleToXY(entity, st.x, st.y);
 		//entity.x = st.x;
 		//entity.y = st.y;
 		//entity.rotation = st.r;
+		entity.moveTo(st.x, st.y);
 	}
 
 	function find_entity(st) {
@@ -1807,11 +1808,12 @@ var game = function game(socket) {
 		//entity.velocity =  {};
 		//entity.velocity.x = 0;
 		//entity.velocity.y = 0;  		  	
-		game.physics.arcade.moveToXY(entity, st.x, st.y);
+		//game.physics.arcade.moveToXY(entity, st.x, st.y);
 		//game.physics.arcade.angleToXY(entity, st.x, st.y);
-		//entity.x = st.x;
-		//entity.y = st.y;
-		//entity.rotation = st.r;
+		entity.x = st.x;
+		entity.y = st.y;
+		entity.rotation = st.r;
+		//entity.moveTo(st.x, st.y);
 	}
 
 	function find_entity(st) {
