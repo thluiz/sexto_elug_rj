@@ -42,7 +42,7 @@ defmodule SextoElugRj.SpaceshipChannel do
   end
 
   def handle_in("update_player", payload, socket) do
-    GameState.update_player %{
+    GameState.update_player_position %{
       id: payload["id"],
       x: payload["x"],
       y: payload["y"],
@@ -50,6 +50,7 @@ defmodule SextoElugRj.SpaceshipChannel do
       type: 0,
       player: 0      
     }
+
     {:noreply, socket} 
   end 
 
